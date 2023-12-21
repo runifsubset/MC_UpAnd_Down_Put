@@ -1,0 +1,161 @@
+---
+title: "Tarification par Monte Carlo d'une Option Put européenne de type Up-and-Out"
+author: "Marcel Héritier K."
+date: "2023-12-21"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## à propos
+
+Dans ce tutoriel, nous voyons comment utiliser la méthode de simulation de Monte Carlo pour évaluer les produits financiers dérivés. La notation mathématique et les exemples sont tirés du livre Implementing Derivatives Models de Les Clewlow et Chris Strickland.
+
+La valorisation des produits financiers dérivés par des simulations de Monte Carlo n'est possible qu'en utilisant les mathématiques financières de l'évaluation neutre du risque et en simulant des trajectoires d'actifs neutres du point de vue du risque. La formule de prix de l'espérance risque-neutre en temps continu est donnée par :
+
+[![\\ \begin{equation}\LARGE \\ \frac{C_t}{B_t} = \mathbb{E}_{\mathbb{Q}}[\frac{C_T}{B_T}\mid F_t] \\ \end{equation}](https://latex.codecogs.com/svg.latex?%5C%5C%20%5Cbegin%7Bequation%7D%5CLARGE%20%5C%5C%20%5Cfrac%7BC_t%7D%7BB_t%7D%20%3D%20%5Cmathbb%7BE%7D_%7B%5Cmathbb%7BQ%7D%7D%5B%5Cfrac%7BC_T%7D%7BB_T%7D%5Cmid%20F_t%5D%20%5C%5C%20%5Cend%7Bequation%7D)](#_)
+
+# Dynamique d'un MBG
+
+Ici, nous disposons d'un taux d'intérêt constant, le facteur d'actualisation est donc $\exp(-rt)$, et la dynamique des actions est modélisée par le mouvement brownien géométrique (GBM).
+
+La solution suivante s'applique au prix de l'action S dans le cadre
+d'une dynamique neutre à l'égard du risque :
+\[
+S_{t+\Delta t}=S_{t}\exp\left(\nu\Delta t+\sigma\sqrt{\Delta t}\epsilon_{i}\right)
+\]
+ où $\nu=r-\frac{1}{2}\sigma^{2}$
+ 
+ 
+ 
+## Particularités des options barrières
+ 
+Lors de la détermination du prix d'options complexes ou exotiques dépendant d'un scénario, un produit très répandu est l'option à barrière. Il s'agit d'options européennes standard à expiration, mais elles cessent d'exister ou n'existent que si le prix du sous-jacent franchit une barrière prédéterminée. Ce niveau de barrière peut avoir un seuil de déclenchement continu ou discret $\tau$.
+
+
+Pour une option _barrière_ du type *Up-and-out*, nous avons :
+
+\[
+C_{T}=f(S_{T})=(K-S_{T})^{+}\times\mathbb{I}_{\left\{ \max\limits _{t\in\tau}S_{t}<H\right\} }
+\]
+Pour autant que, pour tout $m\in M$, 
+
+  * Si $t\in\tau$ et $S_t\geq H$, alors $C_T = 0$
+  * Sinon $t\notin\tau$ et $S_t < H$, alors $C_T = \max (0,\quad K-S_T)$
+  
+
+```{r Données de base, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+S0 = 100      # initial stock price
+K = 100       # strike price
+T = 1         # time to maturity in years
+H = 125       # up-and-out barrier price/value
+r = 0.01      # annual risk-free rate
+vol = 0.2     # volatility (%)
+
+N = 100       # number of time steps
+M = 1000      # number of simulations
+```
+
+  
+## Simulation
+
+Ici, nous simulons le prix de l'action $S_t$ directement, car nous avons besoin de cette valeur lors du calcul pour la comparer à la barrière $H$.
+
+```{r Simulation lente, echo=TRUE, message=FALSE, warning=FALSE, paged.print=TRUE}
+#------------------------#
+# Slow Solution - Steps  #
+#------------------------#
+# Initialize variables
+
+dt <- T/N
+nudt <- (r - 0.5 * vol^2) * dt
+volsdt <- vol * sqrt(dt)
+erdt <- exp(r * dt)
+
+# Standard Error Placeholders
+sum_CT <- 0
+sum_CT2 <- 0
+
+# Monte Carlo Method
+for (i in 1:M) {
+  # Barrier Crossed Flag
+  BARRIER <- FALSE
+  St <- S0
+  
+  for (j in 1:N) {
+    epsilon <- rnorm(1)
+    Stn <- St * exp(nudt + volsdt * epsilon)
+    St <- Stn
+    
+    if (St >= H) {
+      BARRIER <- TRUE
+      break
+    }
+  }
+  
+  if (BARRIER) {
+    CT <- 0
+  } else {
+    CT <- max(0, K - St)
+  }
+  
+  sum_CT <- sum_CT + CT
+  sum_CT2 <- sum_CT2 + CT^2
+}
+
+# Compute Expectation and SE
+C0 <- exp(-r * T) * sum_CT/M
+sigma <- sqrt((sum_CT2 - sum_CT^2/M) * exp(-2 * r * T) / (M - 1))
+SE <- sigma / sqrt(M)
+
+cat("Call value is $", round(C0, 2), " with SE +/- ", round(SE, 3), "\n")
+```
+
+
+## Vectorisation
+```{r Simulation Vectorisée, echo=TRUE, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+#-----------------------------#
+# Vectorized Implementation   #
+#-----------------------------#
+
+# Set seed for reproducibility
+set.seed(689)
+
+# Precompute constants
+dt <- T/N
+nudt <- (r - 0.5 * vol^2) * dt
+volsdt <- vol * sqrt(dt)
+erdt <- exp(r * dt)
+
+# Monte Carlo Method
+Z <- matrix(rnorm(N * M), nrow = N, ncol = M)
+delta_St <- nudt + volsdt * Z
+ST <- matrix(S0, nrow = N + 1, ncol = M)
+for (i in 2:(N + 1)) {
+  ST[i,] <- ST[i - 1,] * exp(delta_St[i - 1,])
+}
+
+# Apply Barrier Condition to ST matrix
+mask <- apply(ST, 2, function(x) any(x >= H))
+ST[, mask] <- 0
+
+CT <- pmax(0, K - ST[N + 1, ST[N + 1,] != 0])
+C0 <- exp(-r * T) * sum(CT) / M
+
+sigma <- sqrt(sum((exp(-r * T) * CT - C0)^2) / (M - 1))
+SE <- sigma / sqrt(M)
+
+cat("Call value is $", round(C0, 2), " with SE +/- ", round(SE, 3), "\n")
+
+
+```
+
+
+
+
