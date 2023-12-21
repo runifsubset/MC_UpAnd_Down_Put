@@ -2,8 +2,7 @@
 
 [![Project Status](https://www.repostatus.org/badges/latest/active.svg?color=green)](https://github.com/runifsubset/MC_UpAnd_Down_Put) 
 
-author: "Marcel Héritier K."
-date: "2023-12-21"
+
 
 Dans ce tutoriel, nous voyons comment utiliser la méthode de simulation de Monte Carlo pour évaluer les produits financiers dérivés. La notation mathématique et les exemples sont tirés du livre Implementing Derivatives Models de Les Clewlow et Chris Strickland.
 
