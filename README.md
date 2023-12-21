@@ -16,11 +16,8 @@ Ici, nous disposons d'un taux d'intérêt constant, le facteur d'actualisation e
 
 La solution suivante s'applique au prix de l'action S dans le cadre
 d'une dynamique neutre à l'égard du risque :
-\[
-S_{t+\Delta t}=S_{t}\exp\left(\nu\Delta t+\sigma\sqrt{\Delta t}\epsilon_{i}\right)
-\]
- où $\nu=r-\frac{1}{2}\sigma^{2}$
- 
+
+[![\\ S_{t+\Delta t}=S_{t}\exp\left(\nu\Delta t+\sigma\sqrt{\Delta t}\epsilon_{i}\right)$ où $\nu=r-\frac{1}{2}\sigma^{2}](https://latex.codecogs.com/svg.latex?%5C%5C%20S_%7Bt%2B%5CDelta%20t%7D%3DS_%7Bt%7D%5Cexp%5Cleft(%5Cnu%5CDelta%20t%2B%5Csigma%5Csqrt%7B%5CDelta%20t%7D%5Cepsilon_%7Bi%7D%5Cright)%24%20o%C3%B9%20%24%5Cnu%3Dr-%5Cfrac%7B1%7D%7B2%7D%5Csigma%5E%7B2%7D)](#_)
  
  
 ## Particularités des options barrières
@@ -30,9 +27,7 @@ Lors de la détermination du prix d'options complexes ou exotiques dépendant d'
 
 Pour une option _barrière_ du type *Up-and-out*, nous avons :
 
-\[
-C_{T}=f(S_{T})=(K-S_{T})^{+}\times\mathbb{I}_{\left\{ \max\limits _{t\in\tau}S_{t}<H\right\} }
-\]
+[![\\ C_{T}=f(S_{T})=(K-S_{T})^{+}\times\mathbb{I}_{\left\{ \max\limits _{t\in\tau}S_{t}<H\right\} }](https://latex.codecogs.com/svg.latex?%5C%5C%20C_%7BT%7D%3Df(S_%7BT%7D)%3D(K-S_%7BT%7D)%5E%7B%2B%7D%5Ctimes%5Cmathbb%7BI%7D_%7B%5Cleft%5C%7B%20%5Cmax%5Climits%20_%7Bt%5Cin%5Ctau%7DS_%7Bt%7D%3CH%5Cright%5C%7D%20%7D)](#_)
 Pour autant que, pour tout $m\in M$, 
 
   * Si $t\in\tau$ et $S_t\geq H$, alors $C_T = 0$
