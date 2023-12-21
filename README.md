@@ -26,8 +26,7 @@ Lors de la détermination du prix d'options complexes ou exotiques dépendant d'
 
 
 Pour une option _barrière_ du type *Up-and-out*, nous avons :
-
-$C_{T}=f(S_{T})=(K-S_{T})^{+}\times\mathbb{I}_{\left\{ \max\limits _{t\in\tau}S_{t}<H\right\}}$
+[![\\ \begin{equation} \\ C_{T}=f(S_{T})=(K-S_{T})^{+}\times\mathbb{I}_{\left\{ \max\limits _{t\in\tau}S_{t}<H\right\}} \\ \end{equation}](https://latex.codecogs.com/svg.latex?%5C%5C%20%5Cbegin%7Bequation%7D%20%5C%5C%20C_%7BT%7D%3Df(S_%7BT%7D)%3D(K-S_%7BT%7D)%5E%7B%2B%7D%5Ctimes%5Cmathds%7B1%7D_%7B%5Cleft%5C%7B%20%5Cmax%5Climits%20_%7Bt%5Cin%5Ctau%7DS_%7Bt%7D%3CH%5Cright%5C%7D%7D%20%5C%5C%20%5Cend%7Bequation%7D)](#_)
 Pour autant que, pour tout $m\in M$, 
 
   * Si $t\in\tau$ et $S_t\geq H$, alors $C_T = 0$
