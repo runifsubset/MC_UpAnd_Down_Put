@@ -5,7 +5,7 @@ rm(list = ls())
 
 S0 = 1000      # initial stock price
 K = 1000       # strike price
-T = 1         # time to maturity in years
+T = 10         # time to maturity in years
 H = 1500       # up-and-out barrier price/value
 r = 0.01      # annual risk-free rate
 vol = 0.2     # volatility (%)
