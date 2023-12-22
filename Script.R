@@ -3,10 +3,10 @@ rm(list = ls())
 # Initialise parameters
 
 
-S0 = 100      # initial stock price
-K = 100       # strike price
+S0 = 1000      # initial stock price
+K = 1000       # strike price
 T = 1         # time to maturity in years
-H = 125       # up-and-out barrier price/value
+H = 1500       # up-and-out barrier price/value
 r = 0.01      # annual risk-free rate
 vol = 0.2     # volatility (%)
 
