@@ -1,3 +1,13 @@
+---
+title: "Tarification par Monte Carlo d'une Option Put européenne de type Up-and-Out"
+author: "Marcel Héritier K."
+date: "2023-12-21"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
 # Tarification par Monte Carlo d'une Option Put européenne de type Up-and-Out
 
 [![Project Status](https://www.repostatus.org/badges/latest/active.svg?color=green)](https://github.com/runifsubset/MC_UpAnd_Down_Put) 
