@@ -99,3 +99,4 @@ sigma <- sqrt(sum((exp(-r * T) * CT - C0)^2) / (M - 1))
 SE <- sigma / sqrt(M)
 
 cat("Call value is $", round(C0, 2), " with SE +/- ", round(SE, 3), "\n")
+

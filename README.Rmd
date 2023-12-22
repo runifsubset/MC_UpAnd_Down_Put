@@ -117,7 +117,7 @@ cat("Call value is $", round(C0, 2), " with SE +/- ", round(SE, 3), "\n")
 ```
 
 
-## Vectorisation
+## Vectorisation (Méthode Longue)
 ```{r Simulation Vectorisée, echo=TRUE, message=FALSE, warning=FALSE, paged.print=TRUE}
 
 #-----------------------------#
