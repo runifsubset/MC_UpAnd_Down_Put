@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2023.10.7)  21 DEC 2023 19:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2023.12.22)  22 DEC 2023 22:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -543,7 +543,7 @@ l.131 ...\%20\%5C\%5C\%20\%5Cend\%7Bequation\%7D}}
                                                    
 Here is how much of TeX's memory you used:
  13627 strings out of 475247
- 214530 string characters out of 5757792
+ 214530 string characters out of 5757791
  1918785 words of memory out of 5000000
  34931 multiletter control sequences out of 15000+600000
  584577 words of font info for 74 fonts, out of 8000000 for 9000

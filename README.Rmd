@@ -3,9 +3,9 @@ title: "Tarification par Monte Carlo d'une Option Put européenne de type Up-and
 author: "Marcel Héritier K."
 date: "2023-12-21"
 output:
-  html_document: default
   word_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
